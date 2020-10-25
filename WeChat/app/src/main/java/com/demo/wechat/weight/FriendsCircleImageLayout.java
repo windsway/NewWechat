@@ -174,18 +174,18 @@ public class FriendsCircleImageLayout extends ViewGroup {
             mItemAspectRatio = 1;
         }
 
-        for (int i = 0; i < imageUrls.size(); i++) {
-            AppImageView imageView = new AppImageView(getContext());
-            imageView.setImageURI(imageUrls.get(i));
-            addView(imageView);
-            //点击查看大图
-            imageView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-        }
+//        for (int i = 0; i < imageUrls.size(); i++) {
+//            AppImageView imageView = new AppImageView(getContext());
+//            imageView.setImageURI(imageUrls.get(i));
+//            addView(imageView);
+//            //点击查看大图
+//            imageView.setOnClickListener(new OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                }
+//            });
+//        }
     }
 
 

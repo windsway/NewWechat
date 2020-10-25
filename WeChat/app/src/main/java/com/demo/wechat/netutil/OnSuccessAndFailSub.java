@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.demo.wechat.R;
 import com.demo.wechat.weight.CommonDialog;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -87,16 +88,21 @@ public class OnSuccessAndFailSub extends DisposableObserver<ResponseBody> implem
 
     @Override
     public void onNext(ResponseBody responseBody) {
+
         try {
-//请求回来的数据进行统一封装
+            // 请求回来的数据进行统一封装
             String result = responseBody.string();
+            // 先在此处回调一个成功的方法，防止返回的数据格式异常，如果按照返回的数据格式，将会走下面的方法
+            mOnSuccessAndFailListener.onSuccess(result);
             JSONObject jsonObject = new JSONObject(result);
+
             int resultCode = jsonObject.getInt("code");
             if (resultCode == 0) {
                 if (!TextUtils.isEmpty(result)) {
-                    mOnSuccessAndFailListener.onSuccess(result);
-                } else {
-                    mOnSuccessAndFailListener.onSuccess("数据为空");
+                    String resultData = jsonObject.getString("data");
+                    mOnSuccessAndFailListener.onSuccess(resultData);
+                } else {// 此处10001表示获取的数据为空
+                    mOnSuccessAndFailListener.onFault("10001");
                 }
             } else {
                 String errorMsg = jsonObject.getString("message");
@@ -105,6 +111,7 @@ public class OnSuccessAndFailSub extends DisposableObserver<ResponseBody> implem
             }
         } catch (Exception e) {
             e.printStackTrace();
+
             mOnSuccessAndFailListener.onFault(e.toString());
 
         }
@@ -115,13 +122,13 @@ public class OnSuccessAndFailSub extends DisposableObserver<ResponseBody> implem
 
 
         try {
-            if (e instanceof SocketTimeoutException) {//请求超时
+            if (e instanceof SocketTimeoutException) {// 请求超时
                 mOnSuccessAndFailListener.onFault("网络请求超时");
-            } else if (e instanceof ConnectException) {//网络连接超时
+            } else if (e instanceof ConnectException) {// 网络连接超时
                 mOnSuccessAndFailListener.onFault("网络连接超时");
-            } else if (e instanceof SSLHandshakeException) {//安全证书异常
+            } else if (e instanceof SSLHandshakeException) {// 安全证书异常
                 mOnSuccessAndFailListener.onFault("安全证书异常");
-            } else if (e instanceof HttpException) {//http状态异常
+            } else if (e instanceof HttpException) {// http状态异常
 
                 int code = ((HttpException) e).code();
                 if (code == 505) {

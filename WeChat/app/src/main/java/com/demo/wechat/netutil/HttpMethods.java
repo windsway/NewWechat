@@ -66,7 +66,7 @@ public class HttpMethods {
         };
         okHttpBuilder.cache(cache).addInterceptor(interceptor);
 
-        //设置头信息
+        // 设置头信息
         Interceptor headInterceptor = new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
@@ -89,7 +89,7 @@ public class HttpMethods {
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         okHttpBuilder.addInterceptor(loggingInterceptor);
 
-        //设置超时和重新连接
+        // 设置超时和重新连接
         okHttpBuilder.connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS);
         okHttpBuilder.readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS);
         okHttpBuilder.writeTimeout(DEFAULT_WRITE_TIMEOUT, TimeUnit.SECONDS);
@@ -106,17 +106,17 @@ public class HttpMethods {
 
     }
 
-    //创建单例
+    // 创建单例
     private static class SingleHolder {
         private static final HttpMethods INSTANCE = new HttpMethods();
     }
 
-    //获取单例
+    // 获取单例
     public static HttpMethods getInstance() {
         return SingleHolder.INSTANCE;
     }
 
-    //获取retrofit实例
+    // 获取retrofit实例
     public Retrofit getRetrofit() {
         return retrofit;
     }
@@ -131,7 +131,7 @@ public class HttpMethods {
         httpApi = retrofit.create(HttpApi.class);
     }
 
-    //获取HttpApi实例
+    // 获取HttpApi实例
     public HttpApi getHttpApi() {
         return httpApi;
     }
