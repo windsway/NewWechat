@@ -1,7 +1,5 @@
 package com.demo.wechat.ui;
 
-import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,8 +11,6 @@ import com.demo.wechat.netsubscribe.JsmithSubscribe;
 import com.demo.wechat.netutil.OnSuccessAndFailListener;
 import com.demo.wechat.netutil.OnSuccessAndFailSub;
 import com.demo.wechat.util.GlideUtil;
-import com.demo.wechat.util.LoginInfoUtils;
-import com.demo.wechat.util.SPUtils;
 
 import butterknife.BindView;
 
@@ -54,17 +50,14 @@ public class AssignmentActivity extends BaseActivity {
 
     private void showUserInfo() {
         // 显示用户背景图像
-//        String urlBg = (String) SPUtils.get(AssignmentActivity.this, LoginInfoUtils.USER_IMG, "");
         String urlBg="http://img2.findthebest.com/sites/default/files/688/media/images/Mingle_159902_i0.png";
         GlideUtil.loadsAquareImage(AssignmentActivity.this, urlBg, mIvUserBg);
 
         // 显示用户头像
-//        String urlAvater = (String) SPUtils.get(AssignmentActivity.this, LoginInfoUtils.USER_AVATEAR, "");
         String avater ="http://info.thoughtworks.com/rs/thoughtworks2/images/glyph_badge.png";
         GlideUtil.loadGrayscaleImage(AssignmentActivity.this, avater, mIvAvater, 10);
 
         // 显示用户昵称
-//        String userNick = (String) SPUtils.get(AssignmentActivity.this, LoginInfoUtils.USER_NICK, "");
         mTvNick.setText("John Smith");
 
     }

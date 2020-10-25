@@ -1,9 +1,6 @@
 package com.demo.wechat;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,7 +11,6 @@ import com.demo.wechat.netutil.OnSuccessAndFailListener;
 import com.demo.wechat.netutil.OnSuccessAndFailSub;
 import com.demo.wechat.ui.AssignmentActivity;
 import com.demo.wechat.util.LoginInfoUtils;
-import com.demo.wechat.util.SPUtils;
 import com.google.gson.Gson;
 
 import butterknife.BindView;
@@ -78,10 +74,10 @@ public class MainActivity extends BaseActivity {
 
     private void saveInfo(JsmithBean jsmithBean) {
 
-        SPUtils.put(MainActivity.this, LoginInfoUtils.USER_AVATEAR, jsmithBean.getAvatar());
-        SPUtils.put(MainActivity.this, LoginInfoUtils.USER_NICK, jsmithBean.getNick());
-        SPUtils.put(MainActivity.this, LoginInfoUtils.USER_IMG, jsmithBean.getProfileimage());
-        SPUtils.put(MainActivity.this, LoginInfoUtils.USER_NAME, jsmithBean.getUsername());
+//        SPUtils.put(MainActivity.this, LoginInfoUtils.USER_AVATEAR, jsmithBean.getAvatar());
+//        SPUtils.put(MainActivity.this, LoginInfoUtils.USER_NICK, jsmithBean.getNick());
+//        SPUtils.put(MainActivity.this, LoginInfoUtils.USER_IMG, jsmithBean.getProfileimage());
+//        SPUtils.put(MainActivity.this, LoginInfoUtils.USER_NAME, jsmithBean.getUsername());
 
     }
 }
