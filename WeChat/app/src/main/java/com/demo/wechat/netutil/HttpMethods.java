@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Interceptor;
@@ -24,6 +25,7 @@ public class HttpMethods {
     private Retrofit retrofit;
 
     private OkHttpClient.Builder okHttpBuilder;
+
     private HttpMethods() {
         okHttpBuilder = new OkHttpClient.Builder();
         // 设置头信息
@@ -54,8 +56,8 @@ public class HttpMethods {
 
     }
 
-    public HttpApi getHttpApi(){
-       return retrofit.create(HttpApi.class);
+    public HttpApi getHttpApi() {
+        return retrofit.create(HttpApi.class);
     }
 
     /**
@@ -68,6 +70,7 @@ public class HttpMethods {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s);
     }
+
 
     //在访问HttpMethods时创建单例
     private static class SingletonHolder {

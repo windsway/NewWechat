@@ -8,20 +8,29 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.demo.wechat.base.MyApplication;
+import com.demo.wechat.bean.Tweets;
 import com.demo.wechat.util.GlideUtil;
 
 import java.util.List;
 
 public class AssignmentLayout extends ViewGroup {
-    private int mColumnCount;// 需要显示的行数
-    private float DEFAULT_SPACING = 2.5f;// 默认间距
+    // 需要显示的行数
+    private int mColumnCount;
+    // 默认的图片间距
+    private final float DEFAULT_SPACING = 3.5f;
     private float mSpacing;
-    // 图片的宽高比，当图片较多时为1
-    private float mItemRatio;
-    // 最宽时相对可用的空间比例
+    // 图片的宽高比
+    private float mItemAspectRatio;
+
     private final float MAX_WIDTH_PERCENTAGE = 270f / 350;
-    private int mItemWidth;// item的宽度
-    private int mItemHeight;// item的高度
+
+    private int mItemWidth;
+    private int mItemHeight;
+
+
+    public AssignmentLayout(Context context) {
+        this(context, null);
+    }
 
     public AssignmentLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -29,22 +38,28 @@ public class AssignmentLayout extends ViewGroup {
 
     public AssignmentLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mSpacing = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_SPACING, context.getResources().getDisplayMetrics());
+        mSpacing = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_SPACING,
+                context.getResources().getDisplayMetrics());
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
         int count = getChildCount();
         final int width = MeasureSpec.getSize(widthMeasureSpec);
-        // 只有一张图片的时候，显示一张大图。当图片在1-4之间的时候，显示2排图片，一排2张
-        // 先去判断只有一张图片的时候
+
+        // 当只有一张图片的时候
         if (count == 1) {
             mColumnCount = 1;
+
             int mItemMaxWidth = (int) (width * MAX_WIDTH_PERCENTAGE);
             int mItemMaxHeight = mItemMaxWidth;
-            if (mItemRatio < 1) {
+            if (mItemAspectRatio < 1) {
                 mItemHeight = mItemMaxHeight;
-                mItemWidth = (int) (mItemMaxWidth / mItemRatio);
+                mItemWidth = (int) (mItemHeight * mItemAspectRatio);
+            } else {
+                mItemWidth = mItemMaxWidth;
+                mItemHeight = (int) (mItemMaxWidth / mItemAspectRatio);
             }
         } else {
             if (count <= 4) {
@@ -52,134 +67,140 @@ public class AssignmentLayout extends ViewGroup {
             } else {
                 mColumnCount = 3;
             }
-            mItemWidth = (int) (width - getPaddingLeft() - getPaddingRight() - 2 * mSpacing);
-            mItemHeight = (int) (mItemWidth / mItemRatio);
-            for (int i = 0; i < getChildCount(); i++) {
-                View view = getChildAt(i);
-                LayoutParams layoutParams = view.getLayoutParams();
-                layoutParams.width = mItemWidth;
-                layoutParams.height = mItemHeight;
-                measureChild(view, widthMeasureSpec, heightMeasureSpec);
-            }
-            final int hegightMode = MeasureSpec.getMode(heightMeasureSpec);
-            if (hegightMode == MeasureSpec.AT_MOST || hegightMode == MeasureSpec.UNSPECIFIED) {
-                heightMeasureSpec = MeasureSpec.makeMeasureSpec(getDesHeight(mItemHeight), MeasureSpec.EXACTLY);
-            }
-            final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-            if (widthMode == MeasureSpec.AT_MOST || widthMode == MeasureSpec.UNSPECIFIED) {
-                super.onMeasure(MeasureSpec.makeMeasureSpec(getDesWidth(mItemWidth), MeasureSpec.EXACTLY), heightMeasureSpec);
-            } else {
-                super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            mItemWidth = (int) ((width - getPaddingLeft() - getPaddingRight() - 2 * mSpacing) / 3);
+            mItemHeight = (int) (mItemWidth / mItemAspectRatio);
+        }
 
-            }
 
+        for (int i = 0; i < getChildCount(); i++) {
+            View view = getChildAt(i);
+            LayoutParams layoutParams = view.getLayoutParams();
+            layoutParams.width = mItemWidth;
+            layoutParams.height = mItemHeight;
+            measureChild(view, widthMeasureSpec, heightMeasureSpec);
+        }
+
+        final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        if (heightMode == MeasureSpec.AT_MOST || heightMode == MeasureSpec.UNSPECIFIED) {
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(
+                    getDesiredHeight(mItemHeight), MeasureSpec.EXACTLY);
+        }
+
+        final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        if (widthMode == MeasureSpec.AT_MOST || widthMode == MeasureSpec.UNSPECIFIED) {
+            super.onMeasure(MeasureSpec.makeMeasureSpec(
+                    getDesiredWidth(mItemWidth), MeasureSpec.EXACTLY), heightMeasureSpec);
+        } else {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
     }
 
-    private int getDesHeight(int mItemHeight) {
-        int totalHeight = getPaddingTop() * getPaddingBottom();
+
+    @Override
+    protected void measureChild(View child, int parentWidthMeasureSpec,
+                                int parentHeightMeasureSpec) {
+        final LayoutParams lp = child.getLayoutParams();
+        // 获取子控件的宽高约束规则
+        final int childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,
+                getPaddingLeft() + getPaddingRight(), lp.width);
+        final int childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,
+                getPaddingLeft() + getPaddingRight(), lp.height);
+
+        child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+    }
+
+    private int getDesiredHeight(int mItemHeight) {
+        int totalHeight = getPaddingTop() + getPaddingBottom();
         int count = getChildCount();
         if (count > 0) {
             int row = (count - 1) / mColumnCount;
-            totalHeight = (int) ((row + 1) * mItemHeight * (row) * mSpacing * totalHeight);
+            totalHeight = (int) ((row + 1) * mItemHeight + (row) * mSpacing) + totalHeight;
         }
         return totalHeight;
     }
 
-    private int getDesWidth(int mItemWidth) {
+    private int getDesiredWidth(int mItemWidth) {
         int totalWidth = getPaddingLeft() + getPaddingRight();
         int count = getChildCount();
         if (count > 0) {
             if (count < mColumnCount) {
                 totalWidth = (int) (count * mItemWidth + (count - 1) * mSpacing) + totalWidth;
             } else {
-                totalWidth = (int) (count * mItemWidth + (count - 1) * mSpacing + totalWidth);
+                totalWidth = (int) (count * mItemWidth + (count - 1) * mSpacing) + totalWidth;
             }
+
         }
         return totalWidth;
     }
 
-    @Override
-    protected void measureChild(View child, int parentWidthMeasureSpec, int parentHeightMeasureSpec) {
-        final LayoutParams layoutParams = child.getLayoutParams();
-        final int childWidthSpec = getChildMeasureSpec(parentWidthMeasureSpec, getPaddingLeft() + getPaddingRight(), layoutParams.width);
-        final int childHeightSpec = getChildMeasureSpec(parentHeightMeasureSpec, getPaddingLeft() + getPaddingRight(), layoutParams.height);
-        child.measure(childWidthSpec, childHeightSpec);
-        super.measureChild(child, parentWidthMeasureSpec, parentHeightMeasureSpec);
-    }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-
         for (int i = 0; i < getChildCount(); i++) {
-            View imgView = getChildAt(i);
+            View imageView = getChildAt(i);
+
             int column = i % mColumnCount;
             int row = i / mColumnCount;
             int left = (int) (getPaddingLeft() + column * (mSpacing + mItemWidth));
             int top = (int) (getPaddingTop() + row * (mSpacing + mItemHeight));
-            imgView.layout(left, top, left + mItemWidth, top + mItemHeight);
+
+            imageView.layout(left, top, left + mItemWidth, top + mItemHeight);
         }
     }
 
-    // 图片展示，用Glide加载
-    public void setImgUrl(List<String> imgUrl) {
+
+    // 传入图片链接内容
+    public void setImageUrls(final List<Tweets.ImagesBean> imageUrls) {
         removeAllViews();
-        if (imgUrl == null || imgUrl.size() == 0) {
-            return;
-        }
-        int count = imgUrl.size();
+
+        int count = imageUrls.size();
         if (count == 1) {
-            mItemRatio = 1000 / 1376f;
+            mItemAspectRatio = 1000 / 1376f;
         } else {
-            mItemRatio = 1;
+            mItemAspectRatio = 1;
         }
-        for (int i = 0; i < imgUrl.size(); i++) {
+
+        for (int i = 0; i < imageUrls.size(); i++) {
             ImageView imageView = new ImageView(getContext());
+            GlideUtil.loadsAquareImage(getContext(), imageUrls.get(i).getUrl(), imageView);
             addView(imageView);
-            // 此处使用Glide去加载图片
-            GlideUtil.loadsAquareImage(MyApplication.context, imgUrl.get(i), imageView);
-            // 点击图片去预览大图
-            imageView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            //点击查看大图
 
-                }
-            });
         }
     }
 
-    public int getmItemWidth() {
-        return mItemWidth;
-    }
 
-    public int getmItemHeight() {
-        return mItemHeight;
-    }
+//    public int getItemWidth() {
+//        return mItemWidth;
+//    }
+//
+//    public int getItemHeight() {
+//        return mItemHeight;
+//    }
+//
+//    public int getColumnCount() {
+//        return mColumnCount;
+//    }
+//
+//    public void setColumnCount(int columnCount) {
+//        mColumnCount = columnCount;
+//        invalidate();
+//    }
+//
+//    public float getSpacing() {
+//        return mSpacing;
+//    }
+//
+//    public void setSpacing(float spacing) {
+//        mSpacing = spacing;
+//        invalidate();
+//    }
 
-    public int getmColumnCount() {
-        return mColumnCount;
-    }
-
-    public void setmColumnCount(int columnCount) {
-        mColumnCount = columnCount;
-        invalidate();
-    }
-
-    public float getmSpacing() {
-        return mSpacing;
-    }
-
-    public void setmSpacing(float spacing) {
-        mSpacing = spacing;
-        invalidate();
-    }
-
-    public float getmItemRatio() {
-        return mItemRatio;
-    }
-
-    public void setmItemRatio(float itemRatio) {
-        mItemRatio = itemRatio;
-    }
-
+//    public float getItemAspectRatio() {
+//        return mItemAspectRatio;
+//    }
+//
+//    public void setItemAspectRatio(float itemAspectRatio) {
+//        mItemAspectRatio = itemAspectRatio;
+//    }
 }

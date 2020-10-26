@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Tweet {
+public class Tweets {
 
 
     /**
@@ -19,6 +19,8 @@ public class Tweet {
     private String content;
     private SenderBean sender;
     private String error;
+    @SerializedName("unknown error")
+    private String _$UnknownError134; // FIXME check this code
     private List<ImagesBean> images;
     private List<CommentsBean> comments;
 
@@ -46,7 +48,13 @@ public class Tweet {
         this.error = error;
     }
 
+    public String get_$UnknownError134() {
+        return _$UnknownError134;
+    }
 
+    public void set_$UnknownError134(String _$UnknownError134) {
+        this._$UnknownError134 = _$UnknownError134;
+    }
 
     public List<ImagesBean> getImages() {
         return images;
