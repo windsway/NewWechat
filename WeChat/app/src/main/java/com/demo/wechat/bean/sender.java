@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class JsmithBean implements Serializable {
+public class sender implements Serializable {
 
     /**
      * profile-image : http://img2.findthebest.com/sites/default/files/688/media/images/Mingle_159902_i0.png
@@ -21,11 +21,11 @@ public class JsmithBean implements Serializable {
     private String nick;
     private String username;
 
-    public String getProfileimage() {
+    public String getProfileImage() {
         return TextUtils.isEmpty(profileimage) ? profileimage : "";
     }
 
-    public void setProfileimage(String profileimage) {
+    public void setProfileImage(String profileimage) {
         this.profileimage = profileimage;
     }
 

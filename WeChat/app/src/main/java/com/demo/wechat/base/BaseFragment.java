@@ -2,43 +2,44 @@ package com.demo.wechat.base;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Window;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.Fragment;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-public abstract class BaseActivity extends FragmentActivity {
+public abstract class BaseFragment extends Fragment {
     private Unbinder unbinder;
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(getLayoutId());
-        unbinder = ButterKnife.bind(this);
-//        initView();
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(getLayoutId(), null);
+        unbinder = ButterKnife.bind(getActivity());
         initData();
+        return view;
+
+    }
+
+    public BaseFragment(){
+
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     protected abstract int getLayoutId();
-
-//    protected abstract void initView();
 
     protected abstract void initData();
 
@@ -47,7 +48,7 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     protected void $startActivity(Class<?> cls, Bundle bundle) {
-        Intent intent = new Intent(this, cls);
+        Intent intent = new Intent(getActivity(), cls);
         if (bundle != null) {
             intent.putExtras(bundle);
         }
@@ -59,7 +60,7 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     protected void $startActivityForResult(Class<?> cls, Bundle bundle, int requestCode) {
-        Intent intent = new Intent(this, cls);
+        Intent intent = new Intent(getActivity(), cls);
         if (bundle != null) {
             intent.putExtras(bundle);
         }
@@ -67,15 +68,15 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     protected void $toastLong(CharSequence msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
     protected void $toastShort(CharSequence msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
     protected Bundle $getIntentExtra() {
-        Intent intent = getIntent();
+        Intent intent = getActivity().getIntent();
         Bundle bundle = null;
         if (null != intent) {
             bundle = intent.getExtras();

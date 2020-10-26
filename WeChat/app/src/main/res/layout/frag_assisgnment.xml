@@ -5,13 +5,6 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-<!--    <ImageView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:src="@mipmap/icon_back"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="@id/iv_user_bg" />-->
-
     <ImageView
         android:id="@+id/iv_user_bg"
         android:layout_width="match_parent"

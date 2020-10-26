@@ -1,19 +1,16 @@
 package com.demo.wechat.weight;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.demo.wechat.base.MyApplication;
 import com.demo.wechat.util.GlideUtil;
 
 import java.util.List;
-import java.util.jar.Attributes;
 
 public class AssignmentLayout extends ViewGroup {
     private int mColumnCount;// 需要显示的行数
