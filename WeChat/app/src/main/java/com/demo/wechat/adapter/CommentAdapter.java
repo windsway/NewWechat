@@ -1,14 +1,15 @@
 package com.demo.wechat.adapter;
 
+import androidx.annotation.Nullable;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.chad.library.adapter.base.BaseViewHolder;
+
 import com.demo.wechat.R;
 import com.demo.wechat.bean.Tweets;
 import com.demo.wechat.util.GlideUtil;
 import com.demo.wechat.weight.AssignmentLayout;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class CommentAdapter extends BaseQuickAdapter<Tweets.CommentsBean, BaseVi
     }
 
     @Override
-    protected void convert(@NotNull BaseViewHolder baseViewHolder, Tweets.CommentsBean commentsBean) {
+    protected void convert( BaseViewHolder baseViewHolder, Tweets.CommentsBean commentsBean) {
 
         baseViewHolder.setText(R.id.tv_comment_name, commentsBean.getSender().getNick()+"：");
         baseViewHolder.setText(R.id.tv_comment_content, commentsBean.getContent());

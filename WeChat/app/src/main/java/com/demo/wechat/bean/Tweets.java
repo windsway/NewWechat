@@ -20,12 +20,20 @@ public class Tweets {
     private SenderBean sender;
     private String error;
     @SerializedName("unknown error")
-    private String _$UnknownError134; // FIXME check this code
+    private String unknownerror;
     private List<ImagesBean> images;
     private List<CommentsBean> comments;
 
     public String getContent() {
         return content;
+    }
+
+    public void setUnknownerror(String unknownerror) {
+        this.unknownerror = unknownerror;
+    }
+
+    public String getUnknownerror() {
+        return unknownerror;
     }
 
     public void setContent(String content) {
@@ -48,13 +56,13 @@ public class Tweets {
         this.error = error;
     }
 
-    public String get_$UnknownError134() {
-        return _$UnknownError134;
-    }
-
-    public void set_$UnknownError134(String _$UnknownError134) {
-        this._$UnknownError134 = _$UnknownError134;
-    }
+//    public String get_$UnknownError134() {
+//        return _$UnknownError134;
+//    }
+//
+//    public void set_$UnknownError134(String _$UnknownError134) {
+//        this._$UnknownError134 = _$UnknownError134;
+//    }
 
     public List<ImagesBean> getImages() {
         return images;
