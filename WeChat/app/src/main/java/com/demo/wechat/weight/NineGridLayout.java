@@ -7,12 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.demo.wechat.bean.Tweets;
+import com.demo.wechat.bean.Image;
 import com.demo.wechat.util.GlideUtil;
 
 import java.util.List;
 
-public class WechatMomentsLayout extends ViewGroup {
+public class NineGridLayout extends ViewGroup {
     // 需要显示的行数
     private int mColumnCount;
     // 默认的图片间距
@@ -24,15 +24,15 @@ public class WechatMomentsLayout extends ViewGroup {
     private int mItemWidth;
     private int mItemHeight;
 
-    public WechatMomentsLayout(Context context) {
+    public NineGridLayout(Context context) {
         this(context, null);
     }
 
-    public WechatMomentsLayout(Context context, AttributeSet attrs) {
+    public NineGridLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public WechatMomentsLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public NineGridLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mSpacing = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_SPACING,
                 context.getResources().getDisplayMetrics());
@@ -143,7 +143,7 @@ public class WechatMomentsLayout extends ViewGroup {
     }
 
     // 传入图片链接内容
-    public void setImageUrls(final List<Tweets.ImagesBean> imageUrls) {
+    public void setImageUrls(final List<Image> imageUrls) {
         removeAllViews();
 
         int count = imageUrls.size();
@@ -155,7 +155,7 @@ public class WechatMomentsLayout extends ViewGroup {
 
         for (int i = 0; i < imageUrls.size(); i++) {
             ImageView imageView = new ImageView(getContext());
-            GlideUtil.loadsAquareImage(getContext(), imageUrls.get(i).getUrl(), imageView);
+            GlideUtil.loadSquareImage(getContext(), imageUrls.get(i).getUrl(), imageView);
             addView(imageView);
         }
     }

@@ -33,7 +33,7 @@
 
             android:textSize="16sp" />
 
-        <com.demo.wechat.weight.WechatMomentsLayout
+        <com.demo.wechat.weight.NineGridLayout
             android:id="@+id/at_sender_photo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
