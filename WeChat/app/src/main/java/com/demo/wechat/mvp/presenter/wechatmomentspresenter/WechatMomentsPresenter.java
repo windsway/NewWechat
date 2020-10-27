@@ -5,5 +5,4 @@ public interface WechatMomentsPresenter {
 
     void getTweetsList(int startNum, int endNum);// 此处可以传递参数
 
-    void getUserInfo();
 }

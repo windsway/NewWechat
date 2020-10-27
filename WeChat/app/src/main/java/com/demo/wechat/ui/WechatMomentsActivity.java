@@ -38,7 +38,7 @@ public class WechatMomentsActivity extends BaseActivity implements WechatMoments
 
     private WechatMomentsPresenter assignmentPresenter;
     private UserInfoPresenter userInfoPresenter;
-    private WechatMomentsListAdapter assisgnmentListAdapter;
+    private WechatMomentsListAdapter wechatMomentsListAdapter;
     private int sizeList = 0;
 
     @Override
@@ -72,12 +72,12 @@ public class WechatMomentsActivity extends BaseActivity implements WechatMoments
     @Override
     public void showTweetsList(List<Tweets> list) {
         sizeList = list.size();
-        assisgnmentListAdapter.setNewData(list);
+        wechatMomentsListAdapter.setNewData(list);
     }
 
     @Override
     public void finishLoadMore() {
-        assisgnmentListAdapter.loadMoreEnd();
+        wechatMomentsListAdapter.loadMoreEnd();
     }
 
     @Override
@@ -93,14 +93,14 @@ public class WechatMomentsActivity extends BaseActivity implements WechatMoments
 
     private void initRec() {
         mRvContent.setLayoutManager(new LinearLayoutManager(WechatMomentsActivity.this, LinearLayoutManager.VERTICAL, false));
-        assisgnmentListAdapter = new WechatMomentsListAdapter(WechatMomentsActivity.this, R.layout.itme_content_img, new ArrayList<>());
-        mRvContent.setAdapter(assisgnmentListAdapter);
+        wechatMomentsListAdapter = new WechatMomentsListAdapter(WechatMomentsActivity.this, R.layout.itme_content_img, new ArrayList<>());
+        mRvContent.setAdapter(wechatMomentsListAdapter);
         View headView = getLayoutInflater().inflate(R.layout.head_assignment, null);
         initHeadView(headView);
         //添加头布局尾布局
-        assisgnmentListAdapter.addHeaderView(headView);
-        assisgnmentListAdapter.setEnableLoadMore(true);
-        assisgnmentListAdapter.setOnLoadMoreListener(() -> assignmentPresenter.getTweetsList(sizeList, sizeList + 5), mRvContent);
+        wechatMomentsListAdapter.addHeaderView(headView);
+        wechatMomentsListAdapter.setEnableLoadMore(true);
+        wechatMomentsListAdapter.setOnLoadMoreListener(() -> assignmentPresenter.getTweetsList(sizeList, sizeList + 5), mRvContent);
 
     }
 

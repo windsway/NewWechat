@@ -18,10 +18,6 @@ public class WechatMomentsModeImpl implements WechatMomentsModel {
 
     private List<Tweets> tweetsNewList = new ArrayList<>();
 
-    @Override
-    public void getUserInfo(OnWechatMoentsFinishedListener listener) {
-
-    }
 
     @Override
     public void getTweets(int startNum, int endNum, OnWechatMoentsFinishedListener listener) {

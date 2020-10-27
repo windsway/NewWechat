@@ -10,51 +10,47 @@ import com.demo.wechat.mvp.view.wechatmomentsview.WechatMomentsView;
 import java.util.List;
 
 public class WechatMomentsPresenterImpl implements WechatMomentsPresenter, OnWechatMoentsFinishedListener {
-    private WechatMomentsView assignmentView;
-    private WechatMomentsModel assisgnmentModel;
+    private WechatMomentsView wechatMomentsView;
+    private WechatMomentsModel wechatMomentsModel;
 
-    public WechatMomentsPresenterImpl(WechatMomentsView assignmentView) {
-        this.assignmentView = assignmentView;
-        this.assisgnmentModel = new WechatMomentsModeImpl();
+    public WechatMomentsPresenterImpl(WechatMomentsView wechatMomentsView) {
+        this.wechatMomentsView = wechatMomentsView;
+        this.wechatMomentsModel = new WechatMomentsModeImpl();
     }
 
     @Override
     public void onSuccess(List<Tweets> tweetsOldList) {
 
-        assignmentView.showTweetsList(tweetsOldList);
+        wechatMomentsView.showTweetsList(tweetsOldList);
     }
 
     @Override
     public void onError(String errorMsg) {
 
         // 错误时，提示
-        if (assignmentView != null) {
-            assignmentView.showErrorMsg(errorMsg);
+        if (wechatMomentsView != null) {
+            wechatMomentsView.showErrorMsg(errorMsg);
         }
     }
 
     @Override
     public void onFinishLoadMore() {
-        assignmentView.finishLoadMore();
+        wechatMomentsView.finishLoadMore();
     }
 
     @Override
     public void onFinishRefersh() {
-        assignmentView.finishRefersh();
+        wechatMomentsView.finishRefersh();
     }
 
     @Override
     public void onDestroy() {
-        assisgnmentModel = null;
+        wechatMomentsModel = null;
     }
 
     @Override
     public void getTweetsList(int startNum, int endNum) {
-        assisgnmentModel.getTweets(startNum, endNum, this);
+        wechatMomentsModel.getTweets(startNum, endNum, this);
     }
 
-    @Override
-    public void getUserInfo() {
-        assisgnmentModel.getUserInfo(this);
-    }
 }
