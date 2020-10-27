@@ -1,4 +1,4 @@
-package com.demo.wechat.assisgnment.bean;
+package com.demo.wechat.bean;
 
 import android.text.TextUtils;
 
@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class sender implements Serializable {
+public class User implements Serializable {
 
     /**
      * profile-image : http://img2.findthebest.com/sites/default/files/688/media/images/Mingle_159902_i0.png

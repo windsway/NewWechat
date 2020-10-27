@@ -1,4 +1,4 @@
-package com.demo.wechat.assisgnment.adapter;
+package com.demo.wechat.adapter;
 
 import android.content.Context;
 
@@ -6,30 +6,23 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.demo.wechat.R;
-import com.demo.wechat.assisgnment.bean.Tweets;
+import com.demo.wechat.bean.Tweets;
 import com.demo.wechat.util.GlideUtil;
-import com.demo.wechat.weight.AssignmentLayout;
-
+import com.demo.wechat.weight.WechatMomentsLayout;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class AssisgnmentListAdapter extends BaseQuickAdapter<Tweets, BaseViewHolder> {
-
+public class WechatMomentsListAdapter extends BaseQuickAdapter<Tweets, BaseViewHolder> {
 
     private CommentAdapter commentAdapter;
     private Context mContext;
 
-    public AssisgnmentListAdapter(int layoutResId) {
-        super(layoutResId);
-    }
-
-    public AssisgnmentListAdapter(Context context,int layoutResId, @Nullable List<Tweets> data) {
+    public WechatMomentsListAdapter(Context context, int layoutResId, @Nullable List<Tweets> data) {
 
         super(layoutResId, data);
         this.mContext = context;
@@ -38,10 +31,9 @@ public class AssisgnmentListAdapter extends BaseQuickAdapter<Tweets, BaseViewHol
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, Tweets tweets) {
 
-
         baseViewHolder.setText(R.id.tv_sender_name, tweets.getSender().getUsername());
         baseViewHolder.setText(R.id.tv_sendr_content, tweets.getContent());
-        AssignmentLayout assignmentLayout = baseViewHolder.getView(R.id.at_sender_photo);
+        WechatMomentsLayout assignmentLayout = baseViewHolder.getView(R.id.at_sender_photo);
         RecyclerView recyclerView = baseViewHolder.getView(R.id.rv_comment);
 
         GlideUtil.loadGrayscaleImage(mContext, tweets.getSender().getAvatar(), baseViewHolder.getView(R.id.iv_sendr_img), 10);
@@ -60,7 +52,6 @@ public class AssisgnmentListAdapter extends BaseQuickAdapter<Tweets, BaseViewHol
                 commentAdapter.setNewData(tweets.getComments());
             }
         }
-
     }
 
     private void initRec(RecyclerView rvComment) {
@@ -69,6 +60,4 @@ public class AssisgnmentListAdapter extends BaseQuickAdapter<Tweets, BaseViewHol
         rvComment.setLayoutManager(layoutManager);
 
     }
-
-
 }
