@@ -16,23 +16,23 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 public class GlideUtil extends AppGlideModule {
 
     // 加载方形图片
-    public static void loadSquareImage(Context context, String url, ImageView imageView) {
+    public static void loadsAquareImage(Context context, String url, ImageView imageView) {
         Glide.with(context).load(url).apply(initOptions(new CropSquareTransformation()))
-                .skipMemoryCache(true)
-                .error(R.mipmap.ic_launcher)
-                .placeholder(R.mipmap.ic_launcher)
-                .fallback(R.mipmap.ic_launcher)
+                .skipMemoryCache(isSkipMemoryCache())
+                .error(getErrorImage())
+                .placeholder(getPlaceholder())
+                .fallback(getErrorImage())
                 .circleCrop()
                 .into(imageView);
     }
 
     // 加载圆角
-    public static void loadGrayScaleImage(Context context, String url, ImageView imageView, int radius) {
+    public static void loadGrayscaleImage(Context context, String url, ImageView imageView, int radius) {
         Glide.with(context).load(url).apply(initOptions(new RoundedCornersTransformation(radius, 0, RoundedCornersTransformation.CornerType.ALL)))
-                .skipMemoryCache(true)
-                .error(R.mipmap.ic_launcher)
-                .placeholder(R.mipmap.ic_launcher)
-                .fallback(R.mipmap.ic_launcher)
+                .skipMemoryCache(isSkipMemoryCache())
+                .error(getErrorImage())
+                .placeholder(getPlaceholder())
+                .fallback(getErrorImage())
                 .circleCrop()
                 .into(imageView);
     }
@@ -49,10 +49,22 @@ public class GlideUtil extends AppGlideModule {
     private static RequestOptions initOptions(BitmapTransformation bitmapTransformation) {
         return new RequestOptions()
                 .transform(bitmapTransformation)
-                .skipMemoryCache(true)// 是否允许内存缓存
+                .skipMemoryCache(isSkipMemoryCache())// 是否允许内存缓存
                 .onlyRetrieveFromCache(true)// 是否从缓存中加载图片
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
     }
 
+    private static boolean isSkipMemoryCache() {
+        return true;
+    }
 
+    // 设置默认的加载错误的图片
+    private static int getErrorImage() {
+        return R.mipmap.ic_launcher;
+    }
+
+    // 设置占位图
+    private static int getPlaceholder() {
+        return R.mipmap.ic_launcher;
+    }
 }
