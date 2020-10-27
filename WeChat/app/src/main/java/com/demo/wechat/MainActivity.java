@@ -9,14 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.demo.wechat.adapter.AssisgnmentListAdapter;
+import com.demo.wechat.assisgnment.adapter.AssisgnmentListAdapter;
 import com.demo.wechat.base.BaseActivity;
-import com.demo.wechat.bean.Tweets;
+import com.demo.wechat.assisgnment.bean.Tweets;
 import com.demo.wechat.netsubscribe.JsmithSubscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 import java.util.stream.Collectors;
 
 import butterknife.BindView;
@@ -36,7 +35,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @BindView(R.id.rv_content)
     RecyclerView mRvContent;
 
-    private AssisgnmentListAdapter assisgnmentListAdapter;
+//    private AssisgnmentListAdapter assisgnmentListAdapter;
     private List<Tweets> tweetsNewList = new ArrayList<>();
     private List<Tweets> tweetsOldList = new ArrayList<>();
 
@@ -49,9 +48,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     @Override
     protected void initData() {
-        initRec();
-//        showUserInfo();
-        getSweets();
+//        initRec();
+////        showUserInfo();
+//        getSweets();
     }
 
     private void showUserInfo() {
@@ -69,48 +68,48 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
 
-    private void getSweets() {
-        JsmithSubscribe.Tweets(new DisposableObserver<List<Tweets>>() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onNext(List<Tweets> tweet) {
-                // 将返回的null数据筛选出去
-                tweetsOldList = tweet.stream()
-//                        .filter(x -> x != null)
-                        .filter(x -> x.getError() == null)
-                        .filter(x -> x.getUnknownerror() == null)
-                        .collect(Collectors.toList());
+//    private void getSweets() {
+//        JsmithSubscribe.Tweets(new DisposableObserver<List<Tweets>>() {
+//            @RequiresApi(api = Build.VERSION_CODES.N)
+//            @Override
+//            public void onNext(List<Tweets> tweet) {
+//                // 将返回的null数据筛选出去
+//                tweetsOldList = tweet.stream()
+////                        .filter(x -> x != null)
+//                        .filter(x -> x.getError() == null)
+//                        .filter(x -> x.getUnknownerror() == null)
+//                        .collect(Collectors.toList());
+//
+//
+////                initRefreshData(tweetsNewList);
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//
+//            }
+//
+//            @Override
+//            public void onComplete() {
+//
+//            }
+//        });
+//    }
 
 
-                initRefreshData(tweetsNewList);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
-    }
-
-
-    private void initRec() {
-        mRvContent.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
-        assisgnmentListAdapter = new AssisgnmentListAdapter(MainActivity.this, R.layout.itme_content_img, new ArrayList<>());
-        mRvContent.setAdapter(assisgnmentListAdapter);
-        View headView = getLayoutInflater().inflate(R.layout.head_assignment, null);
-        //添加头布局尾布局
-        assisgnmentListAdapter.addHeaderView(headView);
-        assisgnmentListAdapter.setEnableLoadMore(true);
-        assisgnmentListAdapter.setOnLoadMoreListener(() -> {
-            initRefreshData(tweetsNewList);
-        }, mRvContent);
-
-    }
+//    private void initRec() {
+//        mRvContent.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
+//        assisgnmentListAdapter = new AssisgnmentListAdapter(MainActivity.this, R.layout.itme_content_img, new ArrayList<>());
+//        mRvContent.setAdapter(assisgnmentListAdapter);
+//        View headView = getLayoutInflater().inflate(R.layout.head_assignment, null);
+//        //添加头布局尾布局
+//        assisgnmentListAdapter.addHeaderView(headView);
+//        assisgnmentListAdapter.setEnableLoadMore(true);
+//        assisgnmentListAdapter.setOnLoadMoreListener(() -> {
+//            initRefreshData(tweetsNewList);
+//        }, mRvContent);
+//
+//    }
 
 
     @Override
@@ -118,22 +117,22 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         mRefershLayout.setEnabled(false);
     }
 
-    List<Tweets> tempList= new ArrayList<>();
+//    List<Tweets> tempList= new ArrayList<>();
 
-    private void initRefreshData(List<Tweets> list) {
-        if (list.size() < tempList.size()) {
-            tempList = tweetsOldList.subList(list.size(), list.size() + 5);
-        }else{
-            tempList = tweetsOldList.subList(list.size(), tweetsOldList.size());
-        }
-
-
-        if (tempList.size() == 0) {
-            assisgnmentListAdapter.setEnableLoadMore(false);
-            return;
-        }
-        tweetsNewList.addAll(tempList);
-        assisgnmentListAdapter.setNewData(tweetsNewList);
-    }
+//    private void initRefreshData(List<Tweets> list) {
+//        if (list.size() < tempList.size()) {
+//            tempList = tweetsOldList.subList(list.size(), list.size() + 5);
+//        }else{
+//            tempList = tweetsOldList.subList(list.size(), tweetsOldList.size());
+//        }
+//
+//
+//        if (tempList.size() == 0) {
+//            assisgnmentListAdapter.setEnableLoadMore(false);
+//            return;
+//        }
+//        tweetsNewList.addAll(tempList);
+//        assisgnmentListAdapter.setNewData(tweetsNewList);
+//    }
 
 }

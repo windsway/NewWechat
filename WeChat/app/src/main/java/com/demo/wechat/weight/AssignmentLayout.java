@@ -7,8 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.demo.wechat.base.MyApplication;
-import com.demo.wechat.bean.Tweets;
+import com.demo.wechat.assisgnment.bean.Tweets;
 import com.demo.wechat.util.GlideUtil;
 
 import java.util.List;

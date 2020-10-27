@@ -1,4 +1,4 @@
-package com.demo.wechat.bean;
+package com.demo.wechat.assisgnment.bean;
 
 import com.google.gson.annotations.SerializedName;
 

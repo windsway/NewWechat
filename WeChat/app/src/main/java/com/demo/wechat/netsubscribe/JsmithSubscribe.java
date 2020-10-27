@@ -1,13 +1,12 @@
 package com.demo.wechat.netsubscribe;
 
 
-import com.demo.wechat.bean.Tweets;
+import com.demo.wechat.assisgnment.bean.Tweets;
 import com.demo.wechat.netutil.HttpMethods;
 
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 
 

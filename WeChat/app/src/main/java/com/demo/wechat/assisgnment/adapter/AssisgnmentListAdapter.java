@@ -1,4 +1,4 @@
-package com.demo.wechat.adapter;
+package com.demo.wechat.assisgnment.adapter;
 
 import android.content.Context;
 
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.demo.wechat.R;
-import com.demo.wechat.bean.Tweets;
+import com.demo.wechat.assisgnment.bean.Tweets;
 import com.demo.wechat.util.GlideUtil;
 import com.demo.wechat.weight.AssignmentLayout;
 

@@ -1,6 +1,6 @@
 package com.demo.wechat.netutil;
 
-import com.demo.wechat.bean.Tweets;
+import com.demo.wechat.assisgnment.bean.Tweets;
 
 import java.util.List;
 
