@@ -7,12 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.demo.wechat.assisgnment.bean.Tweets;
+import com.demo.wechat.bean.Tweets;
 import com.demo.wechat.util.GlideUtil;
 
 import java.util.List;
 
-public class AssignmentLayout extends ViewGroup {
+public class WechatMomentsLayout extends ViewGroup {
     // 需要显示的行数
     private int mColumnCount;
     // 默认的图片间距
@@ -20,22 +20,19 @@ public class AssignmentLayout extends ViewGroup {
     private float mSpacing;
     // 图片的宽高比
     private float mItemAspectRatio;
-
     private final float MAX_WIDTH_PERCENTAGE = 270f / 350;
-
     private int mItemWidth;
     private int mItemHeight;
 
-
-    public AssignmentLayout(Context context) {
+    public WechatMomentsLayout(Context context) {
         this(context, null);
     }
 
-    public AssignmentLayout(Context context, AttributeSet attrs) {
+    public WechatMomentsLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public AssignmentLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public WechatMomentsLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mSpacing = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_SPACING,
                 context.getResources().getDisplayMetrics());
@@ -69,7 +66,6 @@ public class AssignmentLayout extends ViewGroup {
             mItemWidth = (int) ((width - getPaddingLeft() - getPaddingRight() - 2 * mSpacing) / 3);
             mItemHeight = (int) (mItemWidth / mItemAspectRatio);
         }
-
 
         for (int i = 0; i < getChildCount(); i++) {
             View view = getChildAt(i);
@@ -132,7 +128,6 @@ public class AssignmentLayout extends ViewGroup {
         return totalWidth;
     }
 
-
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         for (int i = 0; i < getChildCount(); i++) {
@@ -146,7 +141,6 @@ public class AssignmentLayout extends ViewGroup {
             imageView.layout(left, top, left + mItemWidth, top + mItemHeight);
         }
     }
-
 
     // 传入图片链接内容
     public void setImageUrls(final List<Tweets.ImagesBean> imageUrls) {
@@ -163,43 +157,6 @@ public class AssignmentLayout extends ViewGroup {
             ImageView imageView = new ImageView(getContext());
             GlideUtil.loadsAquareImage(getContext(), imageUrls.get(i).getUrl(), imageView);
             addView(imageView);
-            //点击查看大图
-
         }
     }
-
-
-//    public int getItemWidth() {
-//        return mItemWidth;
-//    }
-//
-//    public int getItemHeight() {
-//        return mItemHeight;
-//    }
-//
-//    public int getColumnCount() {
-//        return mColumnCount;
-//    }
-//
-//    public void setColumnCount(int columnCount) {
-//        mColumnCount = columnCount;
-//        invalidate();
-//    }
-//
-//    public float getSpacing() {
-//        return mSpacing;
-//    }
-//
-//    public void setSpacing(float spacing) {
-//        mSpacing = spacing;
-//        invalidate();
-//    }
-
-//    public float getItemAspectRatio() {
-//        return mItemAspectRatio;
-//    }
-//
-//    public void setItemAspectRatio(float itemAspectRatio) {
-//        mItemAspectRatio = itemAspectRatio;
-//    }
 }
