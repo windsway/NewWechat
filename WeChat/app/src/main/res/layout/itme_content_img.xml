@@ -21,16 +21,14 @@
             android:id="@+id/tv_sender_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:textColor="@android:color/holo_blue_dark"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/tv_sendr_content"
+            android:id="@+id/tv_sender_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-
             android:textSize="16sp" />
 
         <com.demo.wechat.weight.WechatMomentsLayout
@@ -44,8 +42,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10" />
-
-
     </LinearLayout>
 
 </LinearLayout>

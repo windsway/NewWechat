@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
 import com.demo.wechat.R;
 import com.demo.wechat.adapter.MomentsAdapter;
 import com.demo.wechat.base.BaseActivity;
@@ -16,7 +17,6 @@ import com.demo.wechat.bean.User;
 import com.demo.wechat.mvp.presenter.MomentsPresenter;
 import com.demo.wechat.mvp.presenter.MomentsPresenterImpl;
 import com.demo.wechat.mvp.view.MomentView;
-import com.demo.wechat.util.GlideUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class MomentsActivity extends BaseActivity<MomentsPresenter> implements M
     private TextView mTvNick;
 
     private MomentsAdapter momentsAdapter;
-    private int sizeList = 0;
+    private List<Tweet> tweetListAll = new ArrayList<>();
 
     @Override
     protected int getLayoutId() {
@@ -42,9 +42,18 @@ public class MomentsActivity extends BaseActivity<MomentsPresenter> implements M
     }
 
     @Override
+    protected void initView() {
+        initWidget();
+    }
+
+    @Override
     protected void initData() {
-        initRec();
-        mPresenter.getTweetsList(sizeList, sizeList + 5);
+        refreshData();
+    }
+
+    private void refreshData() {
+        mPresenter.getUserInfo();
+        mPresenter.getTweetsList();
     }
 
     @Override
@@ -53,33 +62,39 @@ public class MomentsActivity extends BaseActivity<MomentsPresenter> implements M
     }
 
     @Override
-    public void showUserInfo(User user) {
-
-        GlideUtil.loadSquareImage(MomentsActivity.this, user.getProfileImage(), mIvUserBg);
-        GlideUtil.loadGrayScaleImage(MomentsActivity.this, user.getAvatar(), mIvUserAvater, 10);
-        mTvNick.setText(user.getUsername());
-    }
-
-    @Override
     public void showErrorMsg(String msg) {
-
         $toastLong(msg);
     }
 
     @Override
     public void showTweetsList(List<Tweet> list) {
-        sizeList = list.size();
-        momentsAdapter.setNewData(list);
+        mRefreshLayout.setRefreshing(false);
+        if (list.size() == 0) {
+            momentsAdapter.setEnableLoadMore(false);
+            return;
+        }
+        tweetListAll.addAll(list);
+        momentsAdapter.setNewData(tweetListAll);
     }
 
     @Override
-    public void finishLoadMore() {
-        momentsAdapter.setEnableLoadMore(false);
+    public void showUserInfo(User user) {
+        Glide.with(this).load(user.getProfileImage()).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).into(mIvUserBg);
+        Glide.with(this).load(user.getAvatar()).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).into(mIvUserAvater);
+        mTvNick.setText(user.getNick());
     }
 
     @Override
-    public void finishRefresh() {
-
+    public void showLoadMore(List<Tweet> list) {
+        int insertIndex = tweetListAll.size();
+        if (list != null && list.size() != 0) {
+            tweetListAll.addAll(list);
+            momentsAdapter.loadMoreEnd();
+        } else {
+            momentsAdapter.loadMoreComplete();
+        }
+//        momentsAdapter.notifyItemRangeInserted(insertIndex,tweetListAll.size()-1);
+        momentsAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -88,23 +103,25 @@ public class MomentsActivity extends BaseActivity<MomentsPresenter> implements M
         super.onDestroy();
     }
 
-    private void initRec() {
+    private void initWidget() {
+        mRefreshLayout.setOnRefreshListener(() -> refreshData());
         mRvContent.setLayoutManager(new LinearLayoutManager(MomentsActivity.this, LinearLayoutManager.VERTICAL, false));
         momentsAdapter = new MomentsAdapter(MomentsActivity.this, R.layout.itme_content_img, new ArrayList<>());
-        mRvContent.setAdapter(momentsAdapter);
+        // 添加头布局
         View headView = getLayoutInflater().inflate(R.layout.head_assignment, null);
         initHeadView(headView);
-        //添加头布局尾布局
         momentsAdapter.addHeaderView(headView);
         momentsAdapter.setEnableLoadMore(true);
-        momentsAdapter.setOnLoadMoreListener(() -> mPresenter.getTweetsList(sizeList, sizeList + 5), mRvContent);
-
+        momentsAdapter.setOnLoadMoreListener(() -> {
+            momentsAdapter.openLoadAnimation();
+            mPresenter.loadMoreData();
+        },mRvContent);
+        mRvContent.setAdapter(momentsAdapter);
     }
 
     private void initHeadView(View view) {
         mIvUserBg = view.findViewById(R.id.iv_user_bg);
-        mIvUserAvater = view.findViewById(R.id.iv_avater);
+        mIvUserAvater = view.findViewById(R.id.iv_avatar);
         mTvNick = view.findViewById(R.id.tv_nick);
     }
-
 }
