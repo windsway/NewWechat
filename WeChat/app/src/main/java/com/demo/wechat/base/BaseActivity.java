@@ -10,8 +10,9 @@ import androidx.fragment.app.FragmentActivity;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public abstract class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity<T extends BasePresenter> extends FragmentActivity {
     private Unbinder unbinder;
+    protected T mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -19,6 +20,7 @@ public abstract class BaseActivity extends FragmentActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(getLayoutId());
         unbinder = ButterKnife.bind(this);
+        mPresenter = getPresenter();
         initData();
     }
 
@@ -36,6 +38,8 @@ public abstract class BaseActivity extends FragmentActivity {
     protected abstract int getLayoutId();
 
     protected abstract void initData();
+
+    protected abstract T getPresenter();
 
     protected void $toastLong(CharSequence msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
