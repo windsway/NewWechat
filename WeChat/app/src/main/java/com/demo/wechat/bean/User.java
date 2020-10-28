@@ -38,7 +38,7 @@ public class User implements Serializable {
     }
 
     public String getNick() {
-        return TextUtils.isEmpty(nick) ? nick : "";
+        return nick;
     }
 
     public void setNick(String nick) {

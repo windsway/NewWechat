@@ -11,7 +11,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class WeChatMomentsObservable {
+public class MomentsObservable {
 
     public static void Tweets(DisposableObserver<List<Tweet>> subscriber) {
 
@@ -22,8 +22,8 @@ public class WeChatMomentsObservable {
                 .subscribe(subscriber);
     }
 
-    public static void jsmith(DisposableObserver<User> subscriber){
-        Observable<User> observable = RetrofitClient.getInstance().getHttpApi().jsmith();
+    public static void userInfo(DisposableObserver<User> subscriber){
+        Observable<User> observable = RetrofitClient.getInstance().getHttpApi().userInfo();
         observable.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

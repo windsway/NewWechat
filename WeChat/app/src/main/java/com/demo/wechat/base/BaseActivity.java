@@ -21,6 +21,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends FragmentActi
         setContentView(getLayoutId());
         unbinder = ButterKnife.bind(this);
         mPresenter = getPresenter();
+        initView();
         initData();
     }
 
@@ -36,6 +37,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends FragmentActi
     }
 
     protected abstract int getLayoutId();
+
+    protected abstract void initView();
 
     protected abstract void initData();
 
